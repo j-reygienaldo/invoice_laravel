@@ -55,8 +55,9 @@ class InvoicesController extends Controller
       // $invoice = \App\Invoice::where('invoice_id', 'LIKE', '%'.$id.'%')->first();
 
       $sales = \App\Sales::all();
+      $courier = \App\Courier::all();
 
-      return view('invoices.invoice_detail', compact('sales'));
+      return view('invoices.invoice_detail', compact('sales', 'courier'));
     }
 
     /**

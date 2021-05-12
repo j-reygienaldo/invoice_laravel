@@ -17,7 +17,7 @@
                 <h3 class="">Invoice Detail</h3>
             </div>
             <div class="card-body">
-                <div class="row">
+                <div class="form-group row">
                     <div class="col-md-4">
                         <form class="form-inline">
                             <div class="form-group">
@@ -37,21 +37,16 @@
                                 </select>
                             </div>
                             <div class="btn-group mt-3">
-                                <label for="" class="pr-3">Courier:</label>
-                                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Courier
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Separated link</a>
-                                </div>
+                              <label for="" class="pr-3">Courier:</label>
+                              <select class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="dropdown">
+                                  @foreach($courier as $cour)
+                                  <option value="{{ $cour->courier_id }}">{{ $cour->courier_name }} - {{$cour->courier_fee}}</option>
+                                  @endforeach
+                              </select>
                             </div>
                         </form>
                     </div>
-                    <div class="col-md-4">
+                    <div class="form-group col-md-4">
                         <div class="input-group">
                             <label for="" class="pr-5">Ship To</label>
                             <textarea class="form-control" aria-label="With textarea"></textarea>
