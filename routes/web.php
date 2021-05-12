@@ -13,11 +13,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function()
-{
-  return view('index');
-});
+// Route::get('/', function()
+// {
+//   return view('index');
+// });
+//
+// Route::get('/invoice_detail', function () {
+//     return view('invoices.invoice_detail');
+// });
 
-Route::get('/invoice_detail', function () {
-    return view('invoice_detail');
-});
+//Route::resource('invoices','InvoicesController');
+
+Route::get('/', 'InvoicesController@index');
+//
+Route::get('/invoice_detail', 'InvoicesController@show');

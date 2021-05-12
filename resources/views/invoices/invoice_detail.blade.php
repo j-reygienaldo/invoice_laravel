@@ -1,12 +1,13 @@
 @extends('layouts/app')
 
 @section('main')
+{{-- {{dd($sales)}} --}}
 <div class="container">
-    <form class="form-inline" action="index.html" method="get">
+    <form class="form-inline">
         <div class="form-group pt-5">
             <label for="" class="mr-3">Invoice No: </label>
             <input type="text" class="form-control">
-            <button type="button" name="button">View</button>
+            <button type="button" name="button" class="btn btn-primary ml-1">View</button>
         </div>
     </form>
     <br>
@@ -18,27 +19,22 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <form class="form-inline" action="index.html" method="post">
+                        <form class="form-inline">
                             <div class="form-group">
                                 <label for="" class="pr-3">Invoice Date</label>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" value="">
                             </div>
                             <div class="form-group mt-3">
                                 <label for="" class="pr-5">To</label>
                                 <textarea class="form-control" aria-label="With textarea"></textarea>
                             </div>
                             <div class="btn-group mt-3">
-                                <label for="">Sales Name:</label>
-                                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Sales Name
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Separated link</a>
-                                </div>
+                                <label for="" class="pr-3">Sales Name:</label>
+                                <select class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="dropdown">
+                                    @foreach($sales as $sale)
+                                    <option value="{{ $sale->sales_id }}">{{ $sale->sales_name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="btn-group mt-3">
                                 <label for="" class="pr-3">Courier:</label>
@@ -63,8 +59,8 @@
                         <div class="d-flex mt-4">
                             <label for="" class="pr-3">Payment Type:</label>
                             <select class="form-control" name="" style="width:30%">
-                                <option value="cash">Cash</option>
-                                <option value="pay_later">Pay Later</option>
+                                {{-- <option value="cash">Cash</option>
+                                <option value="pay_later">Pay Later</option> --}}
                             </select>
                         </div>
                     </div>
@@ -126,7 +122,7 @@
         </div>
     </div>
     <div class="row">
-        <button type="button" name="button">Save</button>
+        <button type="button" name="button" class="btn btn-primary">Save</button>
     </div>
 </div>
 @endsection
