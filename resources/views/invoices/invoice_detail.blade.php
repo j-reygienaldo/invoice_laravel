@@ -54,8 +54,8 @@
                         <div class="d-flex mt-4">
                             <label for="" class="pr-3">Payment Type:</label>
                             <select class="form-control" name="" style="width:30%">
-                                {{-- <option value="cash">Cash</option>
-                                <option value="pay_later">Pay Later</option> --}}
+                                <option value="cash">Cash</option>
+                                <option value="pay_later">Pay Later</option>
                             </select>
                         </div>
                     </div>
