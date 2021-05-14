@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Invoice;
 use App\InvoiceDetail;
 use App\Courier;
@@ -17,10 +18,13 @@ class InvoicesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
     public function index()
     {
-      return view('invoices.index');
+      $invoice_detail = null;
+      $sales = \App\Sales::all();
+      $courier = \App\Courier::all();
+
+      return view('invoices.invoice_detail', compact('sales', 'courier', 'invoice_detail'));
     }
 
     /**
@@ -50,14 +54,33 @@ class InvoicesController extends Controller
      * @param  \App\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show(Request $request)
     {
-      // $invoice = \App\Invoice::where('invoice_id', 'LIKE', '%'.$id.'%')->first();
-
       $sales = \App\Sales::all();
       $courier = \App\Courier::all();
 
-      return view('invoices.invoice_detail', compact('sales', 'courier'));
+      $find = $request->find;
+
+      $invoice_detail = \App\Invoice::where('invoice_id', 'LIKE', '%'.$find.'%')->first();
+
+      // $product = \App\Product::where('invoice_id', 'LIKE', '%'.$find.'%')->first();
+
+      $table = DB::table('products')
+      ->select('products.product_name', 'products.weight', 'invoice_details.buy_qty', 'products.price')
+      ->join('invoice_details', 'invoice_details.invoice_id', '=', 'products.invoice_id')
+      ->where('products.invoice_id', 'LIKE', '%'.$find.'%')
+      ->get();
+
+      return view('invoices.invoice_detail', compact('sales', 'courier', 'invoice_detail', 'table'));
+
+      // $table = DB::table('products')
+      // ->select(DB::raw('(invoice_details.buy_qty * products.price) as totalPay'))
+      // ->select('products.product_name', 'products.weight', 'invoice_details.buy_qty', 'products.price', 'products.totalPay')
+      // ->join('invoice_details', 'invoice_details.invoice_id', '=', 'products.invoice_id')
+      // ->where('products.invoice_id', 'LIKE', '%'.$find.'%')
+      // ->get();
+      //
+      // return view('invoices.invoice_detail', compact('sales', 'courier', 'invoice_detail', 'table'));
     }
 
     /**
@@ -92,12 +115,5 @@ class InvoicesController extends Controller
     public function destroy(Invoice $invoice)
     {
         //
-    }
-
-    public function sales_dropdown()
-    {
-      $sales = \App\Sales::pluck('sales_name');
-
-      return view('invoices.invoice_detail', compact('sales'));
     }
 }

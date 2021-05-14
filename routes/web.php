@@ -18,12 +18,14 @@ use Illuminate\Support\Facades\Route;
 //   return view('index');
 // });
 //
-// Route::get('/invoice_detail', function () {
-//     return view('invoices.invoice_detail');
-// });
+Route::get('/', function () {
+    return view('invoices.invoice');
+});
 
 //Route::resource('invoices','InvoicesController');
 
-Route::get('/', 'InvoicesController@index');
+//Route::get('/', 'InvoicesController@index');
 //
+//Route::get('/', 'InvoicesController@index');
 Route::get('/invoice_detail', 'InvoicesController@show');
+//Route::resource('/invoice_detail', 'InvoicesController');
