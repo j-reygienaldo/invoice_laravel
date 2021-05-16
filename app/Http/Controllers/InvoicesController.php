@@ -20,6 +20,7 @@ class InvoicesController extends Controller
      */
     public function index()
     {
+      //pass data to index
       $invoice_detail = null;
       $sales = \App\Sales::all();
       $courier = \App\Courier::all();
@@ -56,7 +57,7 @@ class InvoicesController extends Controller
      */
     public function show(Request $request)
     {
-
+      //
     }
 
     /**
@@ -72,9 +73,9 @@ class InvoicesController extends Controller
 
       $find = $request->find;
 
+      //search invoice data using invoice_id
       $invoice_detail = \App\Invoice::where('invoice_id', 'LIKE', '%'.$find.'%')->first();
 
-      // $product = \App\Product::where('invoice_id', 'LIKE', '%'.$find.'%')->first();
       if ($invoice_detail != '') {
         $table = DB::table('products')
         ->select('products.product_name', 'products.weight', 'invoice_details.buy_qty', 'products.price')
@@ -86,15 +87,6 @@ class InvoicesController extends Controller
       }else {
         echo "Data tidak ditemukan!";
       }
-
-            // $table = DB::table('products')
-            // ->select(DB::raw('(invoice_details.buy_qty * products.price) as totalPay'))
-            // ->select('products.product_name', 'products.weight', 'invoice_details.buy_qty', 'products.price', 'products.totalPay')
-            // ->join('invoice_details', 'invoice_details.invoice_id', '=', 'products.invoice_id')
-            // ->where('products.invoice_id', 'LIKE', '%'.$find.'%')
-            // ->get();
-            //
-            // return view('invoices.invoice_detail', compact('sales', 'courier', 'invoice_detail', 'table'));
     }
 
     /**
@@ -106,6 +98,7 @@ class InvoicesController extends Controller
      */
     public function update(Request $request)
     {
+        //receive the data from /invoice_detail
         $id = $request->input('invoice_id');
         $invoice_date = $request->input('invoice_date');
         $kepada = $request->input('kepada');
@@ -114,16 +107,17 @@ class InvoicesController extends Controller
         $alamat_kirim = $request->input('alamat_kirim');
         $payment_type = $request->input('payment_type');
 
-        // $sub_total = $request->input('sub_total');
-        // $courier_fee = $request->input('courier_fee');
-        // $total = $request->input('total');
+        $sub_total = $request->input('sub_total');
+        $courier_fee = $request->input('courier_fee');
+        $total = $request->input('total');
 
         $data = array('invoice_date' => $invoice_date, 'kepada' => $kepada, 'sales_name' => $sales_name, 'courier_name' => $courier_name, 'alamat_kirim' => $alamat_kirim, 'payment_type' => $payment_type);
 
-        // $data2 = array('sub_total' => $sub_total, 'courier_fee' => $courier_fee, 'total' => $total);
+        $data2 = array('sub_total' => $sub_total, 'courier_fee' => $courier_fee, 'total' => $total);
 
+        //patch the data based on invoice_id
         DB::table('invoices')->where('invoice_id', $id)->update($data);
-        // DB::table('invoice_details')->where('invoice_id', $id)->update($data2);
+        DB::table('invoice_details')->where('invoice_id', $id)->update($data2);
     }
 
     /**

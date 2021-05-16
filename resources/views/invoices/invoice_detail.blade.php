@@ -1,21 +1,9 @@
 @extends('layouts/app')
 
-{{-- @push('scripts')
-  <script type="text/javascript" src="/detail.js"></script>
-@endpush --}}
 @section('main')
 {{-- {{dd($invoice_detail)}}; --}}
 
 <div class="container">
-    {{-- <form class="form-inline" action="/invoice_detail" method="GET">
-        <div class="form-group pt-5">
-            <label for="invoice_no" class="mr-3">Invoice No: </label>
-            <input type="text" id="find" name="find" class="form-control" placeholder="" value={{$invoice_detail->invoice_id}}>
-    <button type="submit" value="find" class="btn btn-primary ml-1">View</button>
-</div>
-</form>
-<br> --}}
-
 <form class="form-group" action="/invoice_detail" enctype="multipart/form-data" method="POST">
     @csrf
     <div class="form-group row">
@@ -131,10 +119,8 @@
     var product_sub_total = 0;
     var sub_total = 0;
 
-    // hitung total biaya kurir
+    //script for total courier fee
     $(document).ready(function() {
-        // var sub_total = 0;
-        // var product_sub_total = 0;
         $("#product_table tr").not(':first').each(function() {
             sub_total += getnum($(this).find("td:eq(3)").text());
             product_sub_total += getnum($(this).find("td:eq(1)").text()) * getnum($(this).find("td:eq(0)").text());
@@ -153,7 +139,7 @@
         $('#sub_total').val(sub_total);
     });
 
-    // hitung total biaya semuanya
+    //script for total payment
     $(document).on('change', '#courier_dropdown', function() {
         var cour_drop = $(this).val();
         var cour_total_fee = 0;
@@ -172,7 +158,7 @@
         console.log(total);
     });
 
-    //update parent invoice
+    //update parent and detail invoice
     $(document).on("click", "#update", function() {
         $.ajaxSetup({
             headers: {
@@ -197,8 +183,6 @@
 
         if (inv_date != '' && inv_kepada != '') {
             $.ajax({
-                //url: 'invoice_detail?find=1',
-                // url: 'invoice_detail?find=' + edit_id,
                 url: 'invoice_detail',
                 type: 'POST',
                 data: {
@@ -208,10 +192,10 @@
                     sales_name: inv_sales,
                     courier_name: inv_courier,
                     alamat_kirim: inv_kirim,
-                    payment_type: inv_payment
-                    // sub_total: sub_total,
-                    // courier_fee: total_courier_fee,
-                    // total: grand_total
+                    payment_type: inv_payment,
+                    sub_total: sub_total,
+                    courier_fee: total_courier_fee,
+                    total: grand_total
                 },
                 success: function(response) {
                     console.log(response);
