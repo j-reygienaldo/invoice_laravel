@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class InvoiceDetail extends Model
 {
     protected $fillable=[
-      'buy_qty', 'sub_total', 'courier_fee', 'total'
+      'sub_total', 'courier_fee', 'total'
     ];
+
+    public function Product()
+    {
+      return $this->hasMany(Product::class);
+    }
 }
