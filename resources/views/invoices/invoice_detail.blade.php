@@ -6,6 +6,7 @@
 <div class="container">
 <form class="form-group" action="/invoice_detail" enctype="multipart/form-data" method="POST">
     @csrf
+    <div id="success" class="alert alert-success" role="alert"></div>
     <div class="form-group row">
         <div class="card col-md-12">
             <div class="card-header">
@@ -144,8 +145,6 @@
         var cour_drop = $(this).val();
         var cour_total_fee = 0;
 
-        console.log(cour_drop);
-
         if (cour_drop == 'Express') {
             cour_total_fee = product_sub_total * 10000;
             $('#cour_fee').val(cour_total_fee);
@@ -155,7 +154,6 @@
         }
         var total = sub_total + cour_total_fee;
         $('#total').val(total);
-        console.log(total);
     });
 
     //update parent and detail invoice
@@ -168,7 +166,6 @@
 
         var edit_id = {{$invoice_detail->invoice_id}};
 
-        console.log(edit_id);
         var inv_date = $('#inv_date').val();
         var inv_kepada = $('#inv_kepada').val();
         var inv_sales = $('#sales_dropdown').val();
@@ -179,7 +176,6 @@
         var sub_total = $('#sub_total').val();
         var total_courier_fee = $('#cour_fee').val();
         var grand_total = $('#total').val();
-        console.log(inv_date);
 
         if (inv_date != '' && inv_kepada != '') {
             $.ajax({
@@ -199,6 +195,9 @@
                 },
                 success: function(response) {
                     console.log(response);
+                    if(response) {
+                    $('#success').text(response.success);
+                    }
                 }
             })
         } else {

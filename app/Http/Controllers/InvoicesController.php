@@ -118,6 +118,8 @@ class InvoicesController extends Controller
         //patch the data based on invoice_id
         DB::table('invoices')->where('invoice_id', $id)->update($data);
         DB::table('invoice_details')->where('invoice_id', $id)->update($data2);
+
+        return response()->json(['success'=>'Data berhasil di update!']);
     }
 
     /**
